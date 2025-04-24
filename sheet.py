@@ -36,7 +36,14 @@ def send_products_embed(webhook_url: str, products: list):
         ],
         "thumbnail": {"url": p["image_url"]}
     }
-
+  if products == []:
+      embeds = {
+        "title": "❌ 沒有商品可以發送！",
+      }
+      payload = {"username": "兔兔", "embeds": [embeds]}
+      r = requests.post(webhook_url, json=payload)
+      r.raise_for_status()
+      print("❌ 沒有商品可以發送！")
   # 切 batches
   for i in range(0, len(products), MAX_EMBEDS):
       batch = products[i : i + MAX_EMBEDS]
